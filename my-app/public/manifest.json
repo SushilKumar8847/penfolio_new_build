@@ -24,7 +24,7 @@
       "sizes": "256x256"
     }
   ],
-  "start_url": "./index.html", // Update this if needed based on your app structure
+  "start_url": "./index.html", 
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#000000",
