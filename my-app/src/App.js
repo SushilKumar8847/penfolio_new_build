@@ -6,13 +6,13 @@ import Home from './pages/Home';
 import Header from './component/Header';
 import Footer from './component/Footer';
 
+
 function App() {
   return (
     <div className="App">
       <Routes>
-        {/* Add a trailing * to the :username route */}
         <Route path="/:username/*" element={<RenderRoutes />} />
-        <Route path="/" element={<RenderRoutes />} /> {/* For the Home route without username */}
+        <Route path="/" element={<RenderRoutes />} />
       </Routes>
       <Footer />
     </div>
@@ -25,11 +25,11 @@ const RenderRoutes = () => {
 
   return (
     <>
-      <Header username={username} /> {/* Pass the username prop to Header */}
+      <Header username={username} />
       <Routes>
-        <Route path="/" element={<Home />} /> {/* Home route without username */}
-        <Route path="about" element={<About />} />
-        <Route path="contact" element={<Contact />} />
+        <Route path="/" element={<Home username={username} />} /> {/* Pass username as a prop */}
+        <Route path="about" element={<About username={username} />} /> {/* Pass username to About */}
+        <Route path="contact" element={<Contact username={username} />} /> {/* Pass username to Contact */}
       </Routes>
     </>
   );
