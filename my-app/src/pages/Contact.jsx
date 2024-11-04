@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Contact = () => {
-  const { username } = useParams(); // Extract username from URL
+const Contact = ({ username }) => {
   const [userId, setUserId] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(''); // New state for success message
+  const [successMessage, setSuccessMessage] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
-  }); // State to manage form inputs
+  });
 
   useEffect(() => {
-    // Fetch user profile using the dynamic username
     fetch(`https://app.penfolio.co/api/user/profile/${username}`)
       .then(response => {
         if (!response.ok) {
@@ -25,8 +22,7 @@ const Contact = () => {
         return response.json();
       })
       .then(data => {
-        // Set the user ID from the API response
-        setUserId(data.data.id); // Adjust according to your data structure
+        setUserId(data.data.id);
         setLoading(false);
       })
       .catch(error => {
@@ -59,16 +55,25 @@ const Contact = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
-        setSuccessMessage('Your message has been sent successfully!'); // Set success message
-        setFormData({ name: '', email: '', subject: '', message: '' }); // Clear input fields
+        setSuccessMessage('Your message has been sent successfully!');
+        setFormData({ name: '', email: '', subject: '', message: '' });
       })
       .catch(error => {
         console.error('Error:', error);
-        setError('There was an error sending your message.'); // Handle error response
+        setError('There was an error sending your message.');
       });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   if (error) return <p className="text-danger">Error: {error}</p>;
 
   return (
@@ -82,7 +87,7 @@ const Contact = () => {
       </div>
       <div className="row">
         <div className="col-12 col-md-6 mx-auto">
-          {successMessage && <p className="text-success">{successMessage}</p>} {/* Display success message */}
+          {successMessage && <p className="text-success">{successMessage}</p>}
           <form onSubmit={handleSubmit}>
             <input type="hidden" name="user_id" value={userId} />
             <div className="mb-3">
@@ -93,8 +98,8 @@ const Contact = () => {
                 id="name"
                 name="name"
                 placeholder="Enter your name"
-                value={formData.name} // Set input value from state
-                onChange={handleChange} // Update state on input change
+                value={formData.name}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -106,8 +111,8 @@ const Contact = () => {
                 id="email"
                 name="email"
                 placeholder="Enter your email"
-                value={formData.email} // Set input value from state
-                onChange={handleChange} // Update state on input change
+                value={formData.email}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -119,8 +124,8 @@ const Contact = () => {
                 id="subject"
                 name="subject"
                 placeholder="Enter your subject"
-                value={formData.subject} // Set input value from state
-                onChange={handleChange} // Update state on input change
+                value={formData.subject}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -132,8 +137,8 @@ const Contact = () => {
                 name="message"
                 rows="4"
                 placeholder="Your message here"
-                value={formData.message} // Set input value from state
-                onChange={handleChange} // Update state on input change
+                value={formData.message}
+                onChange={handleChange}
                 required
               ></textarea>
             </div>
